@@ -1,0 +1,7 @@
+package sikayetVar;
+
+public class FileWork {
+	private String MAIN_URL = "http://www.sikayetvar.com/sikayetler/";
+	private String[] url = new String[10];
+
+}

@@ -1,0 +1,20 @@
+package sikayetVar;
+
+import java.io.PrintWriter;
+
+import org.eclipse.jetty.client.HttpClient;
+import org.eclipse.jetty.client.api.ContentResponse;
+
+public class Client {
+	public void client(String url) throws Exception{
+		HttpClient httpClient = new HttpClient();
+		httpClient.setFollowRedirects(false);
+		httpClient.start();
+		ContentResponse response = httpClient.GET(url);
+		PrintWriter writer = new PrintWriter("html.txt", "UTF-8");
+		writer.print(response.getContentAsString());
+		writer.close();
+		httpClient.stop();
+	}
+
+}

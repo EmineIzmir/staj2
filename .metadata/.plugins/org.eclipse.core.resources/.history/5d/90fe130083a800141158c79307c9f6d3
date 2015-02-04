@@ -1,0 +1,17 @@
+/*
+ * @version 26 Ocak 2015
+ * @author Emine Izmir
+ * This software takes the informations from "sikayetvar.com" includes top 10 complaints.
+ * and records to .json file.
+ */
+
+package sikayetVar;
+
+import sikayetVar.ProcessesForParsing;
+
+public class Main {
+	public static void main(String args[]) throws Exception {
+
+		new ProcessesForParsing().process();
+	}
+}

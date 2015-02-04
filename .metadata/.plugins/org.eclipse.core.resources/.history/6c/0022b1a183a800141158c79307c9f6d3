@@ -1,0 +1,87 @@
+package sikayetVar;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import org.mockito.*;
+import org.mockito.internal.verification.Times;
+
+public class ProcessesTest {
+	private String[] urlTest = new String[10];
+	private String[] urlExpected = new String[10];
+	
+	
+	@mock
+	
+	/*@Test
+	public void testReadLinesForUrls() throws Exception {
+		Processes tester = new Processes();
+		tester.client("http://www.sikayetvar.com/sikayetler/");
+		tester.readLinesForUrls(urlExpected);
+		for (int i = 0; i < 10; i++) {
+			urlExpected[i] = urlExpected[i].substring(
+					urlExpected[i].indexOf("/") + 1,
+					urlExpected[i].indexOf("tay"));
+		}
+		BufferedReader file = new BufferedReader(new FileReader("htmlTest.txt"));
+		int s = 0;
+		String line;
+		while ((line = file.readLine()) != null) {
+			int indexfound = line.indexOf("sikayetBaslik");
+
+			if (indexfound > -1) {
+				for (int x = 0; x < 3; x++) {
+					line = file.readLine();
+				}
+				urlTest[s] = line.substring(line.indexOf("/") + 2,
+						line.indexOf("tay"));
+				s++;
+			}
+		}
+		file.close();
+		for (int i = 0; i < 10; i++) {
+			Assert.assertEquals("succeed!", urlExpected[i], urlTest[i]);
+		}
+	}
+
+	@Test
+	public void testReadLinesForInfo() throws Exception {
+		Processes tester = new Processes();
+		tester.client("http://www.sikayetvar.com/sikayetler/");
+		tester.readLinesForUrls(urlTest);
+		tester.readLinesForInfo(this.urlTest, title, sikayet, sikayetDurumu,
+				kullanici, firma);
+		for (int i = 0; i < 10; i++) {
+			Assert.assertNotNull(title[i]);
+			Assert.assertNotNull(sikayet[i]);
+			Assert.assertNotNull(sikayetDurumu[i]);
+			Assert.assertNotNull(kullanici[i]);
+			Assert.assertNotNull(firma[i]);
+		}
+	}
+
+	@Test
+	public void testComplaint() throws Exception {
+		Processes tester2 = new Processes();
+		tester2.client("http://www.sikayetvar.com/sikayetler/");
+		tester2.readLinesForUrls(urlTest);
+		tester2.readLinesForInfo(this.urlTest, title, sikayet, sikayetDurumu,
+				kullanici, firma);
+		Complaint[] tester = new Complaint[10];
+		for (int k = 0; k < 10; k++) {
+			tester[k] = new Complaint(title[k], sikayet[k], firma[k],
+					sikayetDurumu[k], kullanici[k]);
+		}
+		for (int k = 0; k < 10; k++) {
+			Assert.assertNotNull(title[k]);
+			Assert.assertNotNull(sikayet[k]);
+			Assert.assertNotNull(sikayetDurumu[k]);
+			Assert.assertNotNull(kullanici[k]);
+			Assert.assertNotNull(firma[k]);
+		}
+	}*/
+
+}

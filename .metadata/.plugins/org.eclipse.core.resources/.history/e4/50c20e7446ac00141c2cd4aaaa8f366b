@@ -1,0 +1,146 @@
+package sikayetVar;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import com.google.gson.Gson;
+
+import sikayetVar.Client;
+
+public class ProcessesForParsing {
+	private String MAIN_URL = "https://www.sikayetvar.com/sikayetler";
+	private String[] url = new String[10];
+	private Complaint[] compObj = new Complaint[100];
+	private Client _client = new Client();
+	private String a;
+	int b;
+	private ArrayList<Complaint> mergeObj = new ArrayList<Complaint>();
+
+	public void firstHundredComplaint() throws Exception {
+		Client _client = new Client();
+		compObj[0] = null;
+		for (int i = 0; i < 10; i++) {
+			Document doc = Jsoup.parse(sendPost(i));
+			takeUrlsFromMainPage(doc);
+			for (int j = 0; j < 10; j++) {
+				_client.setUrl("http:" + url[j] + "/");
+				doc = Jsoup.parse(_client.client());
+				compObj[(i * 10) + j] = takeInformationsFromHtml(doc);
+				if (i == 0 && j == 0) {
+					a = compObj[(i * 10) + j].getBaslik();
+				}
+				mergeObj.add(compObj[(i * 10) + j]);
+			}
+		}
+		createJson(compObj, "sikayetler.json");
+		System.out.println(a);
+	}
+
+	public void addNewcomplaints() throws Exception {
+		Complaint[] newObj = new Complaint[100];
+		for (int i = 0; i < 10; i++) {
+			Document doc = Jsoup.parse(sendPost(i));
+			takeUrlsFromMainPage(doc);
+			for (int j = 0; j < 10; j++) {
+
+				_client.setUrl("http:" + url[j] + "/");
+				doc = Jsoup.parse(_client.client());
+				newObj[(i * 10) + j] = takeInformationsFromHtml(doc);
+				if (newObj[(i * 10) + j].getBaslik() == a) {
+					b = ((i * 10) + j);
+				}
+				mergeObj.add(newObj[(i * 10) + j]);
+			}
+		}
+		createJson(newObj, "yeniSikayet.json");
+		for (int i = 0; i < 200; i++) {
+			System.out.println(mergeObj.get(i));
+		}
+	}
+
+	public void takeUrlsFromMainPage(Document htmlCode) throws IOException {
+		for (int i = 0; i < 10; i++) {
+			Element element = htmlCode.body().select(" h3 > a").get(i);
+			url[i] = element.attr("href");
+		}
+	}
+
+	public Complaint takeInformationsFromHtml(Document htmlCode)
+			throws Exception {
+		String a, b, c, d, e;
+
+		Element element = htmlCode.body().select(" div > h1").first();
+		c = element.select("a").text();
+		a = element.text();
+
+		b = htmlCode.body().select("p.sikayetDetayMetin").text();
+		d = htmlCode.body().select("font.sikayetDurumu").text();
+		e = htmlCode.body().select("span.sikayetBilgi > a").text();
+
+		return new Complaint(a, b, c, d, e);
+	}
+
+	public void createJson(Complaint[] compObj, String fileName)
+			throws IOException {
+		Gson gson = new Gson();
+		String json = gson.toJson(compObj);
+		FileWriter writer = new FileWriter(fileName);
+		BufferedWriter out = new BufferedWriter(writer);
+		out.write(json);
+		out.newLine();
+		out.close();
+		System.out.println("Json created!");
+	}
+
+	public String sendPost(int i) throws Exception {
+		URL obj = new URL(MAIN_URL);
+		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+
+		// add request header
+		con.setRequestMethod("POST");
+		con.setRequestProperty("User-Agent", "Mozilla/5.0");
+		con.setRequestProperty("Accept-Language", "en-US,en;q=0.8,tr;q=0.6");
+
+		String urlParameters = "ignoreAjax=1&page=" + Integer.toString(i);
+
+		// Send post request
+		con.setDoOutput(true);
+		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+		wr.writeBytes(urlParameters);
+		wr.flush();
+		wr.close();
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(
+				con.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		in.close();
+		return response.toString();
+
+	}
+
+	public String[] getUrl() {
+		return url;
+	}
+
+	public void setUrl(String[] url) {
+		this.url = url;
+	}
+
+}

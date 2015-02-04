@@ -1,0 +1,24 @@
+package sikayetVar;
+
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class Main extends TimerTask {
+	public Main() {
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(this, new Date(), 300000);
+	}
+	
+	public void run() {
+		try {
+			new ProcessesForParsing().processes();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) {
+		new Main();
+	}
+}

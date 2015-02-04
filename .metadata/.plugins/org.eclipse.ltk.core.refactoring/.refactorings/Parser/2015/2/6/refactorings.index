@@ -1,0 +1,7 @@
+1422876574312	Encapsulate field 'ARRAY_SİZE'
+1422966408790	Delete element
+1422966423786	Rename type 'Test'
+1423058218956	Rename field 'compObj'
+1423058227871	Rename local variable 'mergeObj'
+1423058321301	Extract local variable 'createComplaint'
+1423058383608	Rename local variable 'createComplaint'
